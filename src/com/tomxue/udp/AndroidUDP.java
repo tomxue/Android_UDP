@@ -27,7 +27,7 @@ public class AndroidUDP extends Activity {
 	private EditText destinationIP;
 	private EditText destinationPort;
 	private EditText sentContent;
-	private Button btSend;
+	private Button btSend, btClear;
 
 	private int sendPacket(int port_local, String ip_target, int port_target,
 			String payload) throws IOException {
@@ -81,6 +81,7 @@ public class AndroidUDP extends Activity {
 		destinationPort = (EditText) findViewById(R.id.editTextPorta);
 		sentContent = (EditText) findViewById(R.id.editTextPayload);
 		btSend = (Button) findViewById(R.id.buttonSend);
+		btClear = (Button) findViewById(R.id.buttonClear);
 		recvText = (EditText) findViewById(R.id.RecvText);
 		try {
 			socket  = new DatagramSocket(Integer.parseInt(localPort.getText().toString()));
@@ -106,6 +107,12 @@ public class AndroidUDP extends Activity {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			}
+		});
+		
+		btClear.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				recvText.setText(".");
 			}
 		});
 	}

@@ -10,7 +10,7 @@
         android:layout_width="78dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.09"
-        android:text="5006" >
+        android:text="5001" >
 
 </EditText>
     
@@ -45,7 +45,11 @@
         android:text="Hello Tom Xue!" >
 </EditText>
 
-    <Button android:layout_height="wrap_content" android:layout_gravity="right" android:text="@string/send" android:id="@+id/buttonSend" android:layout_weight="0.04" android:layout_width="100dp"></Button>
+    <Button
+        android:id="@+id/buttonSend"
+        android:layout_width="73dp"
+        android:layout_height="wrap_content"
+        android:text="@string/send" />
 
     <TextView
         android:id="@+id/TextView01"
@@ -56,10 +60,17 @@
 
     <EditText
         android:id="@+id/RecvText"
-        android:layout_width="256dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.70"
         android:ems="10"
+        android:scrollbars="vertical"
         android:text="..." />
+
+    <Button
+        android:id="@+id/buttonClear"
+        android:layout_width="73dp"
+        android:layout_height="wrap_content"
+        android:text="Clear" />
 
 </LinearLayout>
