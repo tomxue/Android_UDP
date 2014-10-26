@@ -1,10 +1,12 @@
-package com.benito.udpterminal;
+package com.tomxue.udp;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+
+import com.benito.udpterminal.R;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -16,7 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class TerminalUDPActivity extends Activity {
+public class AndroidUDP extends Activity {
 
 	private String recvContentText;
 	private EditText recvText;
