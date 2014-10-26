@@ -28,6 +28,7 @@ public class AndroidUDP extends Activity {
 	private EditText destinationPort;
 	private EditText sentContent;
 	private Button btSend, btClear;
+	private final int RECV_BUF_SZE = 4096;
 
 	private int sendPacket(int port_local, String ip_target, int port_target,
 			String payload) throws IOException {
@@ -44,7 +45,7 @@ public class AndroidUDP extends Activity {
 	}
 
 	private void recvPacket() throws IOException {
-		byte[] sentContent = new byte[4096];
+		byte[] sentContent = new byte[RECV_BUF_SZE];
 		DatagramPacket packet = new DatagramPacket(sentContent,
 				sentContent.length);
 		socket.receive(packet);
