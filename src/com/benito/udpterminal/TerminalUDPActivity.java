@@ -21,7 +21,7 @@ public class TerminalUDPActivity extends Activity {
 
 	private String recvContentText;
 	private EditText recvText;
-	DatagramSocket socket;
+	private DatagramSocket socket;
 
 	private int sendPacket(int port_local, String ip_target, int port_target,
 			String payload) throws IOException {
@@ -41,8 +41,6 @@ public class TerminalUDPActivity extends Activity {
 		byte[] sentContent = new byte[256];
 		DatagramPacket packet = new DatagramPacket(sentContent,
 				sentContent.length);
-//		DatagramSocket socket = null;
-//		socket = new DatagramSocket(5000);
 		socket.receive(packet);
 		recvContentText = new String(sentContent, 0, packet.getLength());
 		Log.i("Udp tutorial", "message:" + recvContentText);
@@ -90,8 +88,8 @@ public class TerminalUDPActivity extends Activity {
 				String texto = destinationIP.getText() + ":"
 						+ destinationPort.getText() + " - Payload: "
 						+ sentContent.getText();
-				Toast.makeText(TerminalUDPActivity.this, "Sending:\n" + texto,
-						Toast.LENGTH_LONG).show();
+//				Toast.makeText(TerminalUDPActivity.this, "Sending:\n" + texto,
+//						Toast.LENGTH_LONG).show();
 
 				int port = Integer.parseInt(destinationPort.getText()
 						.toString());
@@ -109,12 +107,12 @@ public class TerminalUDPActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		MyThread1 myThread1 = new MyThread1();
-		new Thread(myThread1).start();
+		RecvThread recvThread = new RecvThread();
+		new Thread(recvThread).start();
 	}
 
-	public class MyThread1 implements Runnable {
-		public MyThread1() {
+	public class RecvThread implements Runnable {
+		public RecvThread() {
 		}
 
 		@Override
