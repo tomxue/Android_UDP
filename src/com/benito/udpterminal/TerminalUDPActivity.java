@@ -89,9 +89,9 @@ public class TerminalUDPActivity extends Activity {
 		btSend.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 
-				String texto = destinationIP.getText() + ":"
-						+ destinationPort.getText() + " - Payload: "
-						+ sentContent.getText();
+//				String texto = destinationIP.getText() + ":"
+//						+ destinationPort.getText() + " - Payload: "
+//						+ sentContent.getText();
 //				Toast.makeText(TerminalUDPActivity.this, "Sending:\n" + texto,
 //						Toast.LENGTH_LONG).show();
 
