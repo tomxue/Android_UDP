@@ -10,9 +10,8 @@
         android:layout_width="78dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.09"
-        android:text="5001" >
-
-</EditText>
+        android:ems="10"
+        android:text="5001" />
     
     <TextView android:id="@+id/textViewIp" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="wrap_content" android:text="@string/ip_address"></TextView>
 
@@ -51,6 +50,12 @@
         android:layout_height="wrap_content"
         android:text="@string/send" />
 
+    <Button
+        android:id="@+id/buttonClear"
+        android:layout_width="73dp"
+        android:layout_height="wrap_content"
+        android:text="Clear" />
+
     <TextView
         android:id="@+id/TextView01"
         android:layout_width="wrap_content"
@@ -66,11 +71,5 @@
         android:ems="10"
         android:scrollbars="vertical"
         android:text="..." />
-
-    <Button
-        android:id="@+id/buttonClear"
-        android:layout_width="73dp"
-        android:layout_height="wrap_content"
-        android:text="Clear" />
 
 </LinearLayout>

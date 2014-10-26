@@ -23,3 +23,6 @@ local.properties
 proguard/
 # Log Files
 *.log
+
+#################
+*.bin

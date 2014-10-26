@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project>
+  <fileVersion>2</fileVersion>
+  <fileChecksum>1578419512</fileChecksum>
+  <configuration>
+    <name>Release</name>
+    <outputs>
+      <file>$PROJ_DIR$\..\..\..\simplelink\include\wlan_rx_filters.h</file>
+      <file>$PROJ_DIR$\Release\Exe\udp_socket.bin</file>
+      <file>$PROJ_DIR$\..\..\..\simplelink\include\netapp.h</file>
+      <file>$PROJ_DIR$\..\..\..\simplelink\source\nonos.h</file>
+      <file>$PROJ_DIR$\..\main.c</file>
+      <file>$PROJ_DIR$\..\..\common\uart_if.c</file>
+      <file>$PROJ_DIR$\Release\Obj\udp_socket.pbd</file>
+      <file>$PROJ_DIR$\..\pinmux.c</file>
+      <file>$PROJ_DIR$\..\..\common\uart_if.h</file>
+      <file>$PROJ_DIR$\..\..\common\udma_if.h</file>
+      <file>$PROJ_DIR$\..\..\common\startup_ewarm.c</file>
+      <file>$PROJ_DIR$\..\..\common\udma_if.c</file>
+      <file>$PROJ_DIR$\Release\Obj\uart_if.pbi</file>
+      <file>$PROJ_DIR$\..\..\..\driverlib\uart.h</file>
+      <file>$PROJ_DIR$\Release\Obj\startup_ewarm.o</file>
+      <file>$PROJ_DIR$\Release\Obj\uart_if.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+      <file>$PROJ_DIR$\..\pinmux.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+      <file>$PROJ_DIR$\..\..\..\simplelink\include\fs.h</file>
+      <file>$PROJ_DIR$\..\..\common\common.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
+      <file>$PROJ_DIR$\..\..\..\driverlib\prcm.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdlib.h</file>
+      <file>$PROJ_DIR$\..\..\..\driverlib\rom_patch.h</file>
+      <file>$PROJ_DIR$\..\..\..\simplelink\include\socket.h</file>
+      <file>$PROJ_DIR$\Release\Obj\pinmux.o</file>
+      <file>$PROJ_DIR$\..\..\..\driverlib\utils.h</file>
+      <file>$PROJ_DIR$\Release\Obj\pinmux.pbi</file>
+      <file>$PROJ_DIR$\..\..\..\simplelink\ewarm\NON_OS\Exe\simplelink.a</file>
+      <file>$TOOLKIT_DIR$\lib\rt7M_tl.a</file>
+      <file>$PROJ_DIR$\Release\Exe\udp_socket.out</file>
+      <file>$TOOLKIT_DIR$\inc\c\ystdio.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
+      <file>$PROJ_DIR$\..\..\..\driverlib\ewarm\Release\Exe\driverlib.a</file>
+      <file>$PROJ_DIR$\..\..\..\driverlib\rom_map.h</file>
+      <file>$TOOLKIT_DIR$\lib\dl7M_tln.a</file>
+      <file>$PROJ_DIR$\..\..\..\inc\hw_gpio.h</file>
+      <file>$TOOLKIT_DIR$\lib\m7M_tl.a</file>
+      <file>$PROJ_DIR$\..\..\..\inc\hw_udma.h</file>
+      <file>$PROJ_DIR$\..\..\..\simplelink\include\netcfg.h</file>
+      <file>$PROJ_DIR$\Release\Obj\main.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
+      <file>$PROJ_DIR$\..\..\..\simplelink\include\wlan.h</file>
+      <file>$PROJ_DIR$\Release\Obj\udma_if.o</file>
+      <file>$PROJ_DIR$\..\..\..\simplelink\include\device.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Normal.h</file>
+      <file>$PROJ_DIR$\..\..\..\inc\hw_ints.h</file>
+      <file>$PROJ_DIR$\..\..\..\driverlib\gpio.h</file>
+      <file>$PROJ_DIR$\..\..\..\driverlib\interrupt.h</file>
+      <file>$PROJ_DIR$\Release\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\..\..\..\simplelink\include\simplelink.h</file>
+      <file>$PROJ_DIR$\..\..\..\inc\hw_uart.h</file>
+      <file>$PROJ_DIR$\Release\Obj\udma_if.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\c\string.h</file>
+      <file>$TOOLKIT_DIR$\config\linker\TexasInstruments\cc3200.icf</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Product_string.h</file>
+      <file>$PROJ_DIR$\..\..\..\driverlib\rom.h</file>
+      <file>$PROJ_DIR$\..\..\..\simplelink\source\objInclusion.h</file>
+      <file>$PROJ_DIR$\..\..\..\driverlib\udma.h</file>
+      <file>$PROJ_DIR$\..\..\..\simplelink\include\trace.h</file>
+      <file>$PROJ_DIR$\..\..\..\inc\hw_types.h</file>
+      <file>$PROJ_DIR$\..\..\..\simplelink\cc_pal.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
+      <file>$PROJ_DIR$\..\..\..\inc\hw_memmap.h</file>
+      <file>$PROJ_DIR$\Release\Obj\startup_ewarm.pbi</file>
+      <file>$PROJ_DIR$\..\..\..\simplelink\user.h</file>
+      <file>$PROJ_DIR$\..\..\..\driverlib\pin.h</file>
+    </outputs>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 33</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\main.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 52</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 43</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 25 17 65 35 48 19 16 24 22 56 58 53 68 64 3 60 62 20 27 2 45 47 42 0 49 63 66 59 37 26 51 23 29 13 9 21 8 18</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 25 17 65 35 48 19 16 24 22 56 58 53 68 64 3 60 62 20 27 2 45 47 42 0 49 63 66 59 37 26 51 23 29 13 9 21 8 18</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\common\uart_if.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 12</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 15</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 25 17 65 35 48 19 16 24 22 44 34 56 58 63 66 23 69 13 59 37 26 8</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\pinmux.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 30</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 28</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 18 63 66 39 69 59 37 26 50 23</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 18 63 66 39 69 59 37 26 50 23</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\common\startup_ewarm.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 67</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 14</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 63 49 51</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 63 49 51</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\common\udma_if.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 55</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 46</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 44 17 65 35 48 19 16 24 22 34 56 58 49 66 54 63 41 59 37 26 50 61 51 23 13 9</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 44 17 65 35 48 19 16 24 22 34 56 58 49 66 54 63 41 59 37 26 50 61 51 23 13 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Release\Exe\udp_socket.out</name>
+      <outputs>
+        <tool>
+          <name>OBJCOPY</name>
+          <file> 1</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 57 43 28 14 15 46 36 31 32 40 38</file>
+        </tool>
+      </inputs>
+    </file>
+  </configuration>
+</project>
+
+
