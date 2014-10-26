@@ -45,4 +45,13 @@
         android:text="Hello Tom Xue!" >
 </EditText>
     <Button android:layout_height="wrap_content" android:layout_gravity="right" android:text="@string/send" android:id="@+id/buttonSend" android:layout_weight="0.04" android:layout_width="100dp"></Button>
+
+    <EditText
+        android:id="@+id/RecvText"
+        android:layout_width="256dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.50"
+        android:ems="10"
+        android:text="..." />
+
 </LinearLayout>
