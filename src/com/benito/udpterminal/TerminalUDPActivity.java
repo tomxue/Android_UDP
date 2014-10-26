@@ -36,25 +36,24 @@ public class TerminalUDPActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        final EditText edLporta = (EditText) findViewById(R.id.editTextLocalPort);
-        final EditText edIP = (EditText) findViewById(R.id.editTextIp);
-        final EditText edPorta = (EditText) findViewById(R.id.editTextPorta);
-        final EditText edPayload = (EditText) findViewById(R.id.editTextPayload);
+        final EditText localPort = (EditText) findViewById(R.id.editTextLocalPort);
+        final EditText destinationIP = (EditText) findViewById(R.id.editTextIp);
+        final EditText destinationPort = (EditText) findViewById(R.id.editTextPorta);
+        final EditText sentContent = (EditText) findViewById(R.id.editTextPayload);
         final Button btSend = (Button) findViewById(R.id.buttonSend);
         
         btSend.setOnClickListener(new OnClickListener() {
         	public void onClick(View v) {
 
-        		String texto = edIP.getText()+":"+edPorta.getText()+
-        		               " - Payload: "+edPayload.getText();
+        		String texto = destinationIP.getText()+":"+destinationPort.getText()+
+        		               " - Payload: "+sentContent.getText();
         		Toast.makeText(TerminalUDPActivity.this, "enviando:\n"+texto ,Toast.LENGTH_LONG).show();
         		
-        		int port = Integer.parseInt(edPorta.getText().toString());
-        		int lport = Integer.parseInt(edLporta.getText().toString());
+        		int port = Integer.parseInt(destinationPort.getText().toString());
+        		int lport = Integer.parseInt(localPort.getText().toString());
         		try {
-					sendPacket(lport,edIP.getText().toString(), port, edPayload.getText().toString());
+					sendPacket(lport,destinationIP.getText().toString(), port, sentContent.getText().toString());
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
         	}
