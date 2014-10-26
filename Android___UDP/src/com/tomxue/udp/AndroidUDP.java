@@ -56,6 +56,15 @@ public class AndroidUDP extends Activity {
 //		socket.disconnect();
 //		socket.close();
 	}
+	
+	private void socketInit()
+	{
+		try {
+			socket  = new DatagramSocket(Integer.parseInt(localPort.getText().toString()));
+		} catch (SocketException e1) {
+			e1.printStackTrace();
+		}		
+	}
 
 	public Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -83,11 +92,8 @@ public class AndroidUDP extends Activity {
 		btSend = (Button) findViewById(R.id.buttonSend);
 		btClear = (Button) findViewById(R.id.buttonClear);
 		recvText = (EditText) findViewById(R.id.RecvText);
-		try {
-			socket  = new DatagramSocket(Integer.parseInt(localPort.getText().toString()));
-		} catch (SocketException e1) {
-			e1.printStackTrace();
-		}
+		
+		socketInit();
 
 		btSend.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
