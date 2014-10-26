@@ -20,7 +20,7 @@ import android.widget.EditText;
 
 public class AndroidUDP extends Activity {
 
-	private String recvContentText;
+	private String recvString;
 	private EditText recvText;
 	private DatagramSocket socket;
 	private EditText localPort;
@@ -45,12 +45,12 @@ public class AndroidUDP extends Activity {
 	}
 
 	private void recvPacket() throws IOException {
-		byte[] sentContent = new byte[RECV_BUF_SZE];
-		DatagramPacket packet = new DatagramPacket(sentContent,
-				sentContent.length);
+		byte[] recvByteArray = new byte[RECV_BUF_SZE];
+		DatagramPacket packet = new DatagramPacket(recvByteArray,
+				recvByteArray.length);
 		socket.receive(packet);
-		recvContentText = new String(sentContent, 0, packet.getLength());
-		Log.i("Udp tutorial", "message:" + recvContentText);
+		recvString = new String(recvByteArray, 0, packet.getLength());
+		Log.i("Udp tutorial", "message:" + recvString);
 		Message message = new Message();
 		message.what = 1;
 		mHandler.sendMessage(message);
@@ -58,20 +58,11 @@ public class AndroidUDP extends Activity {
 //		socket.close();
 	}
 	
-	private void socketInit()
-	{
-		try {
-			socket  = new DatagramSocket(Integer.parseInt(localPort.getText().toString()));
-		} catch (SocketException e1) {
-			e1.printStackTrace();
-		}		
-	}
-
 	public Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 1:
-				recvText.setText(recvContentText);
+				recvText.setText(recvString);
 				break;
 			default:
 				break;
@@ -79,6 +70,15 @@ public class AndroidUDP extends Activity {
 			super.handleMessage(msg);
 		}
 	};
+	
+	private void socketCreate()
+	{
+		try {
+			socket  = new DatagramSocket(Integer.parseInt(localPort.getText().toString()));
+		} catch (SocketException e1) {
+			e1.printStackTrace();
+		}		
+	}
 
 	/** Called when the activity is first created. */
 	@Override
@@ -94,7 +94,7 @@ public class AndroidUDP extends Activity {
 		btClear = (Button) findViewById(R.id.buttonClear);
 		recvText = (EditText) findViewById(R.id.RecvText);
 		
-		socketInit();
+		socketCreate();
 
 		btSend.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -105,11 +105,11 @@ public class AndroidUDP extends Activity {
 //				Toast.makeText(TerminalUDPActivity.this, "Sending:\n" + texto,
 //						Toast.LENGTH_LONG).show();
 
-				int port = Integer.parseInt(destinationPort.getText()
+				int rport = Integer.parseInt(destinationPort.getText()
 						.toString());
 				int lport = Integer.parseInt(localPort.getText().toString());
 				try {
-					sendPacket(lport, destinationIP.getText().toString(), port,
+					sendPacket(lport, destinationIP.getText().toString(), rport,
 							sentContent.getText().toString());
 				} catch (IOException e) {
 					e.printStackTrace();
