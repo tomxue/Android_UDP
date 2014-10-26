@@ -15,13 +15,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class TerminalUDPActivity extends Activity {
 
 	private String recvContentText;
 	private EditText recvText;
 	private DatagramSocket socket;
+	private EditText localPort;
+	private EditText destinationIP;
+	private EditText destinationPort;
+	private EditText sentContent;
+	private Button btSend;
 
 	private int sendPacket(int port_local, String ip_target, int port_target,
 			String payload) throws IOException {
@@ -38,7 +42,7 @@ public class TerminalUDPActivity extends Activity {
 	}
 
 	private void recvPacket() throws IOException {
-		byte[] sentContent = new byte[256];
+		byte[] sentContent = new byte[4096];
 		DatagramPacket packet = new DatagramPacket(sentContent,
 				sentContent.length);
 		socket.receive(packet);
@@ -70,14 +74,14 @@ public class TerminalUDPActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		final EditText localPort = (EditText) findViewById(R.id.editTextLocalPort);
-		final EditText destinationIP = (EditText) findViewById(R.id.editTextIp);
-		final EditText destinationPort = (EditText) findViewById(R.id.editTextPorta);
-		final EditText sentContent = (EditText) findViewById(R.id.editTextPayload);
-		final Button btSend = (Button) findViewById(R.id.buttonSend);
+		localPort = (EditText) findViewById(R.id.editTextLocalPort);
+		destinationIP = (EditText) findViewById(R.id.editTextIp);
+		destinationPort = (EditText) findViewById(R.id.editTextPorta);
+		sentContent = (EditText) findViewById(R.id.editTextPayload);
+		btSend = (Button) findViewById(R.id.buttonSend);
 		recvText = (EditText) findViewById(R.id.RecvText);
 		try {
-			socket  = new DatagramSocket(5000);
+			socket  = new DatagramSocket(Integer.parseInt(localPort.getText().toString()));
 		} catch (SocketException e1) {
 			e1.printStackTrace();
 		}
