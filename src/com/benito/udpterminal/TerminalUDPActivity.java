@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,41 +19,38 @@ import android.widget.Toast;
 
 public class TerminalUDPActivity extends Activity {
 
-	String recvContentText;
-	EditText recvText;
+	private String recvContentText;
+	private EditText recvText;
+	DatagramSocket socket;
 
-	private int sendPacket(int lPorta, String ipHost, int port, String payload)
-			throws IOException {
-
-		InetAddress address = InetAddress.getByName(ipHost);
-
-		DatagramSocket socket = new DatagramSocket(lPorta);
-
+	private int sendPacket(int port_local, String ip_target, int port_target,
+			String payload) throws IOException {
+		InetAddress ipTarget = InetAddress.getByName(ip_target);
+		
 		DatagramPacket packet = new DatagramPacket(payload.getBytes(),
-				payload.length(), address, port);
+				payload.length(), ipTarget, port_target);
 
 		socket.send(packet);
-		socket.disconnect();
-		socket.close();
+//		socket.disconnect();
+//		socket.close();
 
 		return 0;
 	}
 
 	private void recvPacket() throws IOException {
-		int destinationPort = 5000;
 		byte[] sentContent = new byte[256];
-		DatagramPacket p = new DatagramPacket(sentContent, sentContent.length);
-		DatagramSocket s = null;
-		s = new DatagramSocket(destinationPort);
-		s.receive(p);
-		recvContentText = new String(sentContent, 0, p.getLength());
-
+		DatagramPacket packet = new DatagramPacket(sentContent,
+				sentContent.length);
+//		DatagramSocket socket = null;
+//		socket = new DatagramSocket(5000);
+		socket.receive(packet);
+		recvContentText = new String(sentContent, 0, packet.getLength());
 		Log.i("Udp tutorial", "message:" + recvContentText);
 		Message message = new Message();
 		message.what = 1;
 		mHandler.sendMessage(message);
-
-		s.close();
+//		socket.disconnect();
+//		socket.close();
 	}
 
 	public Handler mHandler = new Handler() {
@@ -79,25 +78,11 @@ public class TerminalUDPActivity extends Activity {
 		final EditText sentContent = (EditText) findViewById(R.id.editTextPayload);
 		final Button btSend = (Button) findViewById(R.id.buttonSend);
 		recvText = (EditText) findViewById(R.id.RecvText);
-
-		Thread thread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while (!Thread.currentThread().isInterrupted()) {
-					try {
-						recvPacket();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		});
-		thread.start();
+		try {
+			socket  = new DatagramSocket(5000);
+		} catch (SocketException e1) {
+			e1.printStackTrace();
+		}
 
 		btSend.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -119,5 +104,33 @@ public class TerminalUDPActivity extends Activity {
 				}
 			}
 		});
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		MyThread1 myThread1 = new MyThread1();
+		new Thread(myThread1).start();
+	}
+
+	public class MyThread1 implements Runnable {
+		public MyThread1() {
+		}
+
+		@Override
+		public void run() {
+			while (!Thread.currentThread().isInterrupted()) {
+				try {
+					recvPacket();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 }
