@@ -27,3 +27,9 @@ proguard/
 #################
 *.bin
 *.o
+Obj/
+Release/
+*.pbi
+*.swp
+*.out
+Exe/

@@ -86,10 +86,13 @@
 #define APPLICATION_NAME        "UDP Socket"
 #define APPLICATION_VERSION     "1.1.0"
 
-#define IP_ADDR            0xc0a8006E /* 192.168.0.110 */
+//#define IP_ADDR            0xc0a8006E /* 192.168.0.110 */
+#define IP_ADDR            0xffffffff /* 255.255.255.255 */
 #define PORT_NUM           5001
-#define BUF_SIZE           1400
-#define UDP_PACKET_COUNT   1000
+//#define BUF_SIZE           1400
+#define BUF_SIZE           4
+//#define UDP_PACKET_COUNT   1000
+#define UDP_PACKET_COUNT   BUF_SIZE
 
 // Application specific status/error codes
 typedef enum{
@@ -596,24 +599,25 @@ long UserInput()
 
     do
     {
-        UART_PRINT("\r\nOptions:\r\n1. Send UDP packets.\r\n2. Receive UDP "
-                    "packets.\r\n3. Settings.\r\n4. Exit\r\n");
-        UART_PRINT("Enter the option to use: ");
-        lRetVal = GetCmd(acCmdStore, sizeof(acCmdStore));
-        if(lRetVal == 0)
+//        UART_PRINT("\r\nOptions:\r\n1. Send UDP packets.\r\n2. Receive UDP "
+//                    "packets.\r\n3. Settings.\r\n4. Exit\r\n");
+//        UART_PRINT("Enter the option to use: ");
+//        lRetVal = GetCmd(acCmdStore, sizeof(acCmdStore));
+//        if(lRetVal == 0)
+//        {
+//          //
+//          // No input. Just an enter pressed probably. Display a prompt.
+//          //
+//          UART_PRINT("\n\n\rEnter Valid Input.");
+//        }
+//        else
         {
-          //
-          // No input. Just an enter pressed probably. Display a prompt.
-          //
-          UART_PRINT("\n\n\rEnter Valid Input.");
-        }
-        else
-        {
-            iInput  = (int)strtoul(acCmdStore,0,10);
+//            iInput  = (int)strtoul(acCmdStore,0,10);
+            iInput  = 1;
             if(iInput  == 1)
             {
-                UART_PRINT("Run iperf command \"iperf.exe -u -s -i 1\" and "
-                            "press Enter\n\r");
+//                UART_PRINT("Run iperf command \"iperf.exe -u -s -i 1\" and "
+//                            "press Enter\n\r");
                 //
                 // Wait to receive a character over UART
                 //
@@ -822,8 +826,7 @@ int BsdUdpClient(unsigned short usPort)
         g_cBsdBuf[iCounter] = (char)(iCounter % 10)+'0';
     }
 
-//    sTestBufLen  = BUF_SIZE;
-    sTestBufLen  = 4;
+    sTestBufLen  = BUF_SIZE;
 
     //filling the UDP server socket address
     sAddr.sin_family = SL_AF_INET;
@@ -842,8 +845,7 @@ int BsdUdpClient(unsigned short usPort)
 
     // for a UDP connection connect is not required
     // sending 1000 packets to the UDP server
-//    while (lLoopCount < g_ulPacketCount)
-    while (lLoopCount < 4)
+    while (lLoopCount < g_ulPacketCount)
     {
         // sending packet
         iStatus = sl_SendTo(iSockID, g_cBsdBuf, sTestBufLen, 0,
