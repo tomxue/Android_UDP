@@ -74,7 +74,6 @@
 #include "uart.h"
 
 // added by tomxue
-#include "tmp006drv.h"
 #include "i2c_if.h"
 
 // common interface includes
@@ -107,6 +106,35 @@ typedef enum{
 
     STATUS_CODE_MAX = -0xBB8
 }e_AppStatusCodes;
+
+// added by tomxue
+//*****************************************************************************
+//                      MACRO DEFINITIONS
+//*****************************************************************************
+#define FAILURE                 -1
+#define SUCCESS                 0
+#define RET_IF_ERR(Func)        {int iRetVal = (Func); \
+                                 if (SUCCESS != iRetVal) \
+                                     return  iRetVal;}
+#define UART_PRINT               Report
+
+#define TMP006_VOBJECT_REG_ADDR         0x0
+#define TMP006_TAMBIENT_REG_ADDR        0x1
+#define TMP006_CONFIG_REG_ADDR          0x2
+#define TMP006_MANUFAC_ID_REG_ADDR      0xFE
+#define TMP006_DEVICE_ID_REG_ADDR       0xFF
+
+
+//*****************************************************************************
+// TMP006 Device details
+//*****************************************************************************
+#define TMP006_MANUFAC_ID       0x5449
+#define TMP006_DEVICE_ID        0x0067
+
+//*****************************************************************************
+// TMP006 Device I2C address
+//*****************************************************************************
+#define TMP006_DEV_ADDR         0x41
 
 
 
@@ -803,6 +831,174 @@ long UserInput()
 
 }
 
+// added by tomxue
+//****************************************************************************
+//
+//! Returns the value in the specified register
+//!
+//! \param ucRegAddr is the offset register address
+//! \param pusRegValue is the pointer to the register value store
+//! 
+//! This function  
+//!    1. Returns the value in the specified register
+//!
+//! \return 0: Success, < 0: Failure.
+//
+//****************************************************************************
+int
+GetRegisterValue(unsigned char ucRegAddr, unsigned short *pusRegValue)
+{
+    unsigned char ucRegData[2];
+    //
+    // Invoke the readfrom I2C API to get the required byte
+    //
+    UART_PRINT("The loop 4 \n\r");
+    if(I2C_IF_ReadFrom(TMP006_DEV_ADDR, &ucRegAddr, 1, 
+                   &ucRegData[0], 2) != 0)
+    {
+        UART_PRINT("I2C readfrom failed\n\r");
+        return FAILURE;
+    }
+    UART_PRINT("The loop 5 \n\r");
+
+    *pusRegValue = (unsigned short)(ucRegData[0] << 8) | ucRegData[1];
+
+    return SUCCESS;
+}
+
+//****************************************************************************
+//
+//! Compute the temperature value from the sensor voltage and die temp.
+//!
+//! \param dVobject is the sensor voltage value
+//! \param dTAmbient is the local die temperature
+//! 
+//! This function  
+//!    1. Computes the temperature from the VObject and TAmbient values
+//!
+//! \return 0: Success, < 0: Failure.
+//
+//****************************************************************************
+double ComputeTemperature(double dVobject, double dTAmbient)
+{
+    //
+    // This algo is obtained from 
+    // http://processors.wiki.ti.com/index.php/SensorTag_User_Guide
+    // #IR_Temperature_Sensor
+    //
+    double Tdie2 = dTAmbient + 273.15;
+    const double S0 = 6.4E-14;            // Calibration factor
+    const double a1 = 1.75E-3;
+    const double a2 = -1.678E-5;
+    const double b0 = -2.94E-5;
+    const double b1 = -5.7E-7;
+    const double b2 = 4.63E-9;
+    const double c2 = 13.4;
+    const double Tref = 298.15;
+    double S = S0*(1+a1*(Tdie2 - Tref)+a2*pow((Tdie2 - Tref),2));
+    double Vos = b0 + b1*(Tdie2 - Tref) + b2*pow((Tdie2 - Tref),2);
+    double fObj = (dVobject - Vos) + c2*pow((dVobject - Vos),2);
+    double tObj = pow(pow(Tdie2,4) + (fObj/S),.25);
+    tObj = (tObj - 273.15);
+    return tObj;
+}
+
+// added by tomxue
+//****************************************************************************
+//
+//! Initialize the temperature sensor
+//!
+//! \param None
+//! 
+//! This function  
+//!    1. Get the device manufacturer and version
+//!    2. Add any initialization here
+//!
+//! \return 0: Success, < 0: Failure.
+//
+//****************************************************************************
+int 
+TMP006DrvOpen()
+{
+    unsigned short usManufacID, usDevID, usConfigReg;
+
+    UART_PRINT("loop 1 \n\r");
+    //
+    // Get the manufacturer ID
+    //
+    RET_IF_ERR(GetRegisterValue(TMP006_MANUFAC_ID_REG_ADDR, &usManufacID));
+    UART_PRINT("Manufacturer ID: 0x%x\n\r", usManufacID);
+    if(usManufacID != TMP006_MANUFAC_ID)
+    {
+        UART_PRINT("Error in Manufacturer ID\n\r");
+        return FAILURE;
+    }
+
+    //
+    // Get the device ID
+    //
+    RET_IF_ERR(GetRegisterValue(TMP006_DEVICE_ID_REG_ADDR, &usDevID));
+    UART_PRINT("Device ID: 0x%x\n\r", usDevID);
+    if(usDevID != TMP006_DEVICE_ID)
+    {
+        UART_PRINT("Error in Device ID\n");
+        return FAILURE;
+    }
+
+    //
+    // Get the configuration register value
+    //
+    RET_IF_ERR(GetRegisterValue(TMP006_CONFIG_REG_ADDR, &usConfigReg));
+    UART_PRINT("Configuration register value: 0x%x\n\r", usConfigReg);
+
+    return SUCCESS;
+}
+
+//****************************************************************************
+//
+//! Get the temperature value
+//!
+//! \param pfCurrTemp is the pointer to the temperature value store
+//! 
+//! This function  
+//!    1. Get the sensor voltage reg and ambient temp reg values
+//!    2. Compute the temperature from the read values
+//!
+//! \return 0: Success, < 0: Failure.
+//
+//****************************************************************************
+int 
+TMP006DrvGetTemp(float *pfCurrTemp)
+{
+    unsigned short usVObjectRaw, usTAmbientRaw;
+    double dVObject, dTAmbient;
+    //
+    // Get the sensor voltage register value
+    //
+    UART_PRINT("The loop 1 \n\r");
+    RET_IF_ERR(GetRegisterValue(TMP006_VOBJECT_REG_ADDR, &usVObjectRaw));
+    //
+    // Get the ambient temperature register value
+    //
+    UART_PRINT("The loop 2 \n\r");
+    RET_IF_ERR(GetRegisterValue(TMP006_TAMBIENT_REG_ADDR, &usTAmbientRaw));
+    //
+    // Apply the format conversion
+    //
+    dVObject = ((short)usVObjectRaw) * 156.25e-9;
+    dTAmbient = ((short)usTAmbientRaw) / 128;
+
+    UART_PRINT("The loop 3 \n\r");
+    *pfCurrTemp = ComputeTemperature(dVObject, dTAmbient);
+    
+    //
+    // Convert to Farenheit
+    //
+    *pfCurrTemp = ((*pfCurrTemp * 9) / 5) + 32;
+
+    return SUCCESS;
+}
+
 //****************************************************************************
 //
 //! \brief Opening a UDP client side socket and sending data
@@ -830,7 +1026,7 @@ int BsdUdpClient(unsigned short usPort)
     TMP006DrvGetTemp(&fCurrentTemp);
     char cTemp = (char)fCurrentTemp;
     UART_PRINT("The temperature is %u \n\r",(unsigned long)fCurrentTemp);
-    g_cBsdBuf[0] = cTemp;
+    g_cBsdBuf[0] = 'a';
 
     // filling the buffer
     for (iCounter=1 ; iCounter<BUF_SIZE ; iCounter++)
