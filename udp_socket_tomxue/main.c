@@ -92,7 +92,7 @@
 //#define BUF_SIZE           1400
 #define BUF_SIZE           4
 //#define UDP_PACKET_COUNT   1000
-#define UDP_PACKET_COUNT   BUF_SIZE
+#define UDP_PACKET_COUNT   1
 
 // Application specific status/error codes
 typedef enum{
@@ -117,6 +117,8 @@ static void BoardInit();
 static void InitializeAppVariables();
 static long ConfigureSimpleLinkToDefaultState();
 
+// defined by Tom Xue
+static int      base_number;
 
 //*****************************************************************************
 //                 GLOBAL VARIABLES -- Start
@@ -823,8 +825,13 @@ int BsdUdpClient(unsigned short usPort)
     // filling the buffer
     for (iCounter=0 ; iCounter<BUF_SIZE ; iCounter++)
     {
-        g_cBsdBuf[iCounter] = (char)(iCounter % 10)+'0';
+        g_cBsdBuf[iCounter] = (char)(iCounter % 10)+'0'+base_number;
     }
+
+    if(base_number >= 9)
+        base_number = 0;
+    else
+        base_number++;
 
     sTestBufLen  = BUF_SIZE;
 

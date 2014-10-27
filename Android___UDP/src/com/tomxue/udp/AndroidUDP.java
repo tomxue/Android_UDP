@@ -30,12 +30,13 @@ public class AndroidUDP extends Activity {
 	private Button btSend, btClear;
 	private final int RECV_BUF_SZE = 4096;
 
-	private int sendPacket(int port_local, String ip_target, int port_target,
+	private int sendPacket(int localPort, String remoteIP, int remotePort,
 			String payload) throws IOException {
-		InetAddress ipTarget = InetAddress.getByName(ip_target);
+		InetAddress ipTarget = InetAddress.getByName(remoteIP);
 		
+		// remote port to generate the packet for sending
 		DatagramPacket packet = new DatagramPacket(payload.getBytes(),
-				payload.length(), ipTarget, port_target);
+				payload.length(), ipTarget, remotePort);
 
 		socket.send(packet);
 //		socket.disconnect();
@@ -73,7 +74,7 @@ public class AndroidUDP extends Activity {
 	
 	private void socketCreate()
 	{
-		try {
+		try {	// local port to generate the socket
 			socket  = new DatagramSocket(Integer.parseInt(localPort.getText().toString()));
 		} catch (SocketException e1) {
 			e1.printStackTrace();
