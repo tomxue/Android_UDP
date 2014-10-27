@@ -1,5 +1,5 @@
 [DebugChecksum]
-Checksum=-1651423560
+Checksum=-264739676
 [Stack]
 FillEnabled=0
 OverflowWarningsEnabled=1
@@ -14,7 +14,7 @@ ByteLimit=50
 LMI_ResetMode=0x00000000
 [LMIFTDI]
 LMIFTDIserialNo=cc3200A
-LMIFTDIfoundProbes=FF:cc3200A:
+LMIFTDIfoundProbes=
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0

@@ -73,6 +73,10 @@
 #include "utils.h"
 #include "uart.h"
 
+// added by tomxue
+#include "tmp006drv.h"
+#include "i2c_if.h"
+
 // common interface includes
 #include "udma_if.h"
 #include "common.h"
@@ -822,10 +826,18 @@ int BsdUdpClient(unsigned short usPort)
     int             iStatus;
     long            lLoopCount = 0;
 
+    float fCurrentTemp;
+    TMP006DrvGetTemp(&fCurrentTemp);
+    char cTemp = (char)fCurrentTemp;
+    UART_PRINT("The temperature is %u \n\r",(unsigned long)fCurrentTemp);
+    g_cBsdBuf[0] = cTemp;
+
     // filling the buffer
-    for (iCounter=0 ; iCounter<BUF_SIZE ; iCounter++)
+    for (iCounter=1 ; iCounter<BUF_SIZE ; iCounter++)
     {
-        g_cBsdBuf[iCounter] = (char)(iCounter % 10)+'0'+base_number;
+
+//        g_cBsdBuf[iCounter] = (char)(iCounter % 10)+'0'+base_number;
+        g_cBsdBuf[iCounter] = 0;
     }
 
     if(base_number >= 9)
@@ -1073,6 +1085,14 @@ void main()
     // Configuring UART
     //
     InitTerm();
+
+    //Init Temprature Sensor
+    lRetVal = TMP006DrvOpen();
+//    if(lRetVal < 0)
+//    {
+//        ERR_PRINT(lRetVal);
+//        LOOP_FOREVER();
+//    }    
 
     //
     // Display banner
