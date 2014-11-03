@@ -145,7 +145,7 @@ public class AndroidUDP extends Activity {
 					e1.printStackTrace();
 				}
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
