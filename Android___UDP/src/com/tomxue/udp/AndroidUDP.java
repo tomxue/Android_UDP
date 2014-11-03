@@ -63,7 +63,10 @@ public class AndroidUDP extends Activity {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 1:
-				recvText.setText(recvString);
+//				recvText.setText(recvString);
+				recvText.append(recvString);
+				recvText.append(" ");
+				recvText.scrollBy(0, recvText.getHeight());
 				break;
 			default:
 				break;
@@ -120,7 +123,7 @@ public class AndroidUDP extends Activity {
 		
 		btClear.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				recvText.setText(".");
+				recvText.setText(" ");
 			}
 		});
 	}
@@ -144,11 +147,11 @@ public class AndroidUDP extends Activity {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+//				try {
+//					Thread.sleep(1000);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
 			}
 		}
 	}

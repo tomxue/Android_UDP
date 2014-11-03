@@ -69,7 +69,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.70"
         android:ems="10"
-        android:scrollbars="vertical"
-        android:text="..." />
+        android:scrollbars="vertical" />
 
 </LinearLayout>
