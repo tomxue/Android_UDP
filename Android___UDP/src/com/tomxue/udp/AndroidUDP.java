@@ -63,7 +63,6 @@ public class AndroidUDP extends Activity {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 1:
-//				recvText.setText(recvString);
 				recvText.append(recvString);
 				recvText.append(" ");
 				recvText.scrollBy(0, recvText.getHeight());
@@ -102,13 +101,6 @@ public class AndroidUDP extends Activity {
 
 		btSend.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-
-//				String texto = destinationIP.getText() + ":"
-//						+ destinationPort.getText() + " - Payload: "
-//						+ sentContent.getText();
-//				Toast.makeText(TerminalUDPActivity.this, "Sending:\n" + texto,
-//						Toast.LENGTH_LONG).show();
-
 				int rport = Integer.parseInt(destinationPort.getText()
 						.toString());
 				int lport = Integer.parseInt(localPort.getText().toString());
