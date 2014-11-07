@@ -66,6 +66,8 @@ public class AndroidUDP extends Activity {
 				recvText.append(recvString);
 				recvText.append(" ");
 //				recvText.scrollTo(0, recvText.getHeight());
+				if(recvText.getLineCount() == 8)
+					recvText.setText("");
 				break;
 			default:
 				break;
