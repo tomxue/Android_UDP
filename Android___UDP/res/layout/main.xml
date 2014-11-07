@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:weightSum="1" >
@@ -17,7 +17,6 @@
         android:id="@+id/editTextLocalPort"
         android:layout_width="78dp"
         android:layout_height="wrap_content"
-        android:layout_weight="0.09"
         android:ems="10"
         android:text="5001" />
 
@@ -35,9 +34,6 @@
         android:layout_height="wrap_content"
         android:inputType="text"
         android:text="255.255.255.255" >
-
-        <requestFocus>
-        </requestFocus>
     </EditText>
 
     <TextView
@@ -78,12 +74,6 @@
         android:layout_height="wrap_content"
         android:text="@string/send" />
 
-    <Button
-        android:id="@+id/buttonClear"
-        android:layout_width="73dp"
-        android:layout_height="wrap_content"
-        android:text="Clear" />
-
     <TextView
         android:id="@+id/TextView01"
         android:layout_width="wrap_content"
@@ -94,14 +84,17 @@
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="300dip" >
+        android:layout_height="match_parent"
+        android:scrollbarStyle="outsideOverlay" >
 
         <EditText
             android:id="@+id/RecvText"
-            android:layout_width="300dp"
-            android:minLines="6"
-            android:layout_height="200dp"
-            android:ems="10"/>
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="0dp" >
+
+        </EditText>
+
     </ScrollView>
 
 </LinearLayout>

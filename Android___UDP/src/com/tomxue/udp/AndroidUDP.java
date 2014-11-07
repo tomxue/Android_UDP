@@ -66,8 +66,8 @@ public class AndroidUDP extends Activity {
 				recvText.append(recvString);
 				recvText.append(" ");
 //				recvText.scrollTo(0, recvText.getHeight());
-				if(recvText.getLineCount() == 8)
-					recvText.setText("");
+//				if(recvText.getLineCount() == 6)
+//					recvText.setText("");
 				break;
 			default:
 				break;
@@ -96,7 +96,6 @@ public class AndroidUDP extends Activity {
 		destinationPort = (EditText) findViewById(R.id.editTextPorta);
 		sentContent = (EditText) findViewById(R.id.editTextPayload);
 		btSend = (Button) findViewById(R.id.buttonSend);
-		btClear = (Button) findViewById(R.id.buttonClear);
 		recvText = (EditText) findViewById(R.id.RecvText);
 		
 		socketCreate();
@@ -113,13 +112,7 @@ public class AndroidUDP extends Activity {
 					e.printStackTrace();
 				}
 			}
-		});
-		
-		btClear.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				recvText.setText(" ");
-			}
-		});
+		});		
 	}
 
 	@Override
