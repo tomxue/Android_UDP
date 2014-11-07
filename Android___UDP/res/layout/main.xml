@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" android:weightSum="1">
-    <TextView android:id="@+id/textViewLocalPort" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="wrap_content" android:text="@string/localPort"></TextView>
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:weightSum="1" >
+
+    <TextView
+        android:id="@+id/textViewLocalPort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/localPort"
+        android:textAppearance="?android:attr/textAppearanceLarge" >
+    </TextView>
 
     <EditText
         android:id="@+id/editTextLocalPort"
@@ -12,8 +20,14 @@
         android:layout_weight="0.09"
         android:ems="10"
         android:text="5001" />
-    
-    <TextView android:id="@+id/textViewIp" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="wrap_content" android:text="@string/ip_address"></TextView>
+
+    <TextView
+        android:id="@+id/textViewIp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ip_address"
+        android:textAppearance="?android:attr/textAppearanceLarge" >
+    </TextView>
 
     <EditText
         android:id="@+id/editTextIp"
@@ -22,9 +36,17 @@
         android:inputType="text"
         android:text="255.255.255.255" >
 
-        <requestFocus></requestFocus>
+        <requestFocus>
+        </requestFocus>
     </EditText>
-    <TextView android:id="@+id/textViewPorta" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="wrap_content" android:text="@string/port"></TextView>
+
+    <TextView
+        android:id="@+id/textViewPorta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/port"
+        android:textAppearance="?android:attr/textAppearanceLarge" >
+    </TextView>
 
     <EditText
         android:id="@+id/editTextPorta"
@@ -33,16 +55,22 @@
         android:layout_gravity="left"
         android:inputType="number"
         android:text="5001" >
+    </EditText>
 
-</EditText>
-    <TextView android:id="@+id/textViewPayload" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="wrap_content" android:text="@string/payload"></TextView>
+    <TextView
+        android:id="@+id/textViewPayload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/payload"
+        android:textAppearance="?android:attr/textAppearanceLarge" >
+    </TextView>
 
     <EditText
         android:id="@+id/editTextPayload"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Hello Tom Xue!" >
-</EditText>
+    </EditText>
 
     <Button
         android:id="@+id/buttonSend"
@@ -63,12 +91,17 @@
         android:text="ReceivedText"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <EditText
-        android:id="@+id/RecvText"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.70"
-        android:ems="10"
-        android:scrollbars="vertical" />
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="300dip" >
+
+        <EditText
+            android:id="@+id/RecvText"
+            android:layout_width="300dp"
+            android:minLines="6"
+            android:layout_height="200dp"
+            android:ems="10"/>
+    </ScrollView>
 
 </LinearLayout>

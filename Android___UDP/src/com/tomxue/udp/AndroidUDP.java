@@ -65,7 +65,7 @@ public class AndroidUDP extends Activity {
 			case 1:
 				recvText.append(recvString);
 				recvText.append(" ");
-				recvText.scrollBy(0, recvText.getHeight());
+//				recvText.scrollTo(0, recvText.getHeight());
 				break;
 			default:
 				break;
