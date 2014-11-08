@@ -100,6 +100,7 @@ public class AndroidUDP extends Activity {
 		recvText = (EditText) findViewById(R.id.RecvText);
 
 		socketCreate();
+		recvText.setKeyListener(null);
 
 		btSend.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
