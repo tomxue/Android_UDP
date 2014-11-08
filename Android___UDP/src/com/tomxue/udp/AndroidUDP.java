@@ -33,14 +33,14 @@ public class AndroidUDP extends Activity {
 	private int sendPacket(int localPort, String remoteIP, int remotePort,
 			String payload) throws IOException {
 		InetAddress ipTarget = InetAddress.getByName(remoteIP);
-		
+
 		// remote port to generate the packet for sending
 		DatagramPacket packet = new DatagramPacket(payload.getBytes(),
 				payload.length(), ipTarget, remotePort);
 
 		socket.send(packet);
-//		socket.disconnect();
-//		socket.close();
+		// socket.disconnect();
+		// socket.close();
 
 		return 0;
 	}
@@ -55,19 +55,19 @@ public class AndroidUDP extends Activity {
 		Message message = new Message();
 		message.what = 1;
 		mHandler.sendMessage(message);
-//		socket.disconnect();
-//		socket.close();
+		// socket.disconnect();
+		// socket.close();
 	}
-	
+
 	public Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 1:
 				recvText.append(recvString);
 				recvText.append(" ");
-//				recvText.scrollTo(0, recvText.getHeight());
-//				if(recvText.getLineCount() == 6)
-//					recvText.setText("");
+				// recvText.scrollTo(0, recvText.getHeight());
+				// if(recvText.getLineCount() == 6)
+				// recvText.setText("");
 				break;
 			default:
 				break;
@@ -75,14 +75,14 @@ public class AndroidUDP extends Activity {
 			super.handleMessage(msg);
 		}
 	};
-	
-	private void socketCreate()
-	{
-		try {	// local port to generate the socket
-			socket  = new DatagramSocket(Integer.parseInt(localPort.getText().toString()));
+
+	private void socketCreate() {
+		try { // local port to generate the socket
+			socket = new DatagramSocket(Integer.parseInt(localPort.getText()
+					.toString()));
 		} catch (SocketException e1) {
 			e1.printStackTrace();
-		}		
+		}
 	}
 
 	/** Called when the activity is first created. */
@@ -96,8 +96,9 @@ public class AndroidUDP extends Activity {
 		destinationPort = (EditText) findViewById(R.id.editTextPorta);
 		sentContent = (EditText) findViewById(R.id.editTextPayload);
 		btSend = (Button) findViewById(R.id.buttonSend);
+		btClear = (Button) findViewById(R.id.buttonClear);
 		recvText = (EditText) findViewById(R.id.RecvText);
-		
+
 		socketCreate();
 
 		btSend.setOnClickListener(new OnClickListener() {
@@ -106,13 +107,19 @@ public class AndroidUDP extends Activity {
 						.toString());
 				int lport = Integer.parseInt(localPort.getText().toString());
 				try {
-					sendPacket(lport, destinationIP.getText().toString(), rport,
-							sentContent.getText().toString());
+					sendPacket(lport, destinationIP.getText().toString(),
+							rport, sentContent.getText().toString());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-		});		
+		});
+
+		btClear.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				recvText.setText("");
+			}
+		});
 	}
 
 	@Override
@@ -134,11 +141,11 @@ public class AndroidUDP extends Activity {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-//				try {
-//					Thread.sleep(1000);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
+				// try {
+				// Thread.sleep(1000);
+				// } catch (InterruptedException e) {
+				// e.printStackTrace();
+				// }
 			}
 		}
 	}
