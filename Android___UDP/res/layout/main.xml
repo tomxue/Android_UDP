@@ -11,25 +11,22 @@
 
         <TextView
             android:id="@+id/textViewIp"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:text="@string/broadcast_IP_Port"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText
             android:id="@+id/editTextIp"
-            android:layout_width="158dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:inputType="text"
             android:text="@string/destIP" />
 
         <EditText
             android:id="@+id/editTextPorta"
-            android:layout_width="54dp"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:ems="10"
             android:inputType="number"
             android:text="@string/destPort" />
 
@@ -41,27 +38,22 @@
 
         <TextView
             android:id="@+id/TextView_myIP"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
             android:text="@string/myIPText"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText
             android:id="@+id/EditText_myIP"
-            android:layout_width="70dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.75"
-            android:ems="10"
             android:inputType="text"
             android:text="@string/myIPAdd" />
 
         <EditText
             android:id="@+id/editTextLocalPort"
-            android:layout_width="56dp"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.04"
-            android:ems="10"
             android:inputType="number"
             android:text="@string/localPortNum" >
 
@@ -76,18 +68,15 @@
 
         <TextView
             android:id="@+id/TextView_peerAddr"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.09"
             android:text="@string/peerAddr"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText
             android:id="@+id/EditText_peerAddr"
-            android:layout_width="70dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.75"
-            android:ems="10"
             android:inputType="text"
             android:text="@string/peerIP" />
 
@@ -99,16 +88,14 @@
 
         <Button
             android:id="@+id/buttonSend"
-            android:layout_width="80dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.00"
             android:text="@string/send" />
 
         <EditText
             android:id="@+id/editTextPayload"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:inputType="text"
             android:text="@string/sendContent" />
 
@@ -120,9 +107,8 @@
 
         <Button
             android:id="@+id/buttonClear"
-            android:layout_width="80dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.00"
             android:text="Clear" />
 
         <TextView
