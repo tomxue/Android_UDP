@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <string name="app_name">UDP Broadcast</string>
-    
     <string name="localPort">Local Port</string>
     <string name="ip_address">Destination IP</string>
     <string name="port">Destination Port</string>
     <string name="send">Send</string>
-    <string name="payload">Content</string>
+    <string name="payload_send">Content</string>
+    <string name="payload_recv">Content Received</string>
+    <string name="sendContent">Hello Tom Xue!</string>
+    <string name="destPort">5001</string>
+    <string name="destIP">255.255.255.255</string>
+    <string name="localPortNum">5001</string>
+
 </resources>

@@ -5,68 +5,72 @@
     android:orientation="vertical"
     android:weightSum="1" >
 
-    <TextView
-        android:id="@+id/textViewLocalPort"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/localPort"
-        android:textAppearance="?android:attr/textAppearanceLarge" >
-    </TextView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-    <EditText
-        android:id="@+id/editTextLocalPort"
-        android:layout_width="78dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:text="5001" />
+        <TextView
+            android:id="@+id/textViewLocalPort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.22"
+            android:text="@string/localPort"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:id="@+id/textViewIp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ip_address"
-        android:textAppearance="?android:attr/textAppearanceLarge" >
-    </TextView>
+        <EditText
+            android:id="@+id/editTextLocalPort"
+            android:layout_width="68dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:text="@string/localPortNum" />
 
-    <EditText
-        android:id="@+id/editTextIp"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:text="255.255.255.255" >
-    </EditText>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/textViewPorta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/port"
-        android:textAppearance="?android:attr/textAppearanceLarge" >
-    </TextView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-    <EditText
-        android:id="@+id/editTextPorta"
-        android:layout_width="74dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:inputType="number"
-        android:text="5001" >
-    </EditText>
+        <TextView
+            android:id="@+id/textViewIp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.95"
+            android:text="@string/ip_address"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:id="@+id/textViewPayload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/payload"
-        android:textAppearance="?android:attr/textAppearanceLarge" >
-    </TextView>
+        <EditText
+            android:id="@+id/editTextIp"
+            android:layout_width="158dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:text="@string/destIP" />
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/editTextPayload"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="Hello Tom Xue!" >
-    </EditText>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/textViewPorta"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.39"
+            android:text="@string/port"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <EditText
+            android:id="@+id/editTextPorta"
+            android:layout_width="66dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:text="@string/destPort" >
+
+            <requestFocus />
+        </EditText>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,24 +78,39 @@
 
         <Button
             android:id="@+id/buttonSend"
-            android:layout_width="73dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
+            android:layout_weight="0.00"
             android:text="@string/send" />
 
-        <Button
-            android:id="@+id/buttonClear"
-            android:layout_width="73dp"
+        <EditText
+            android:id="@+id/editTextPayload"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Clear" />
+            android:ems="10"
+            android:inputType="text"
+            android:text="@string/sendContent" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/TextView01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ReceivedText"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/buttonClear"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.00"
+            android:text="Clear" />
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/payload_recv"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/scrollView1"
