@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class AndroidUDP extends Activity {
 
@@ -149,6 +150,8 @@ public class AndroidUDP extends Activity {
 				recvText.setText("");
 			}
 		});
+		
+		Toast.makeText(this, "Author: tomxue@outlook.com", Toast.LENGTH_LONG).show();
 	}
 
 	@Override
