@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.util.Enumeration;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,8 +26,29 @@ public class AndroidUDP extends Activity {
 	private EditText destinationIP;
 	private EditText destinationPort;
 	private EditText sentContent;
+	private EditText peerAddr;
+	private EditText myAddr;
 	private Button btSend, btClear;
 	private final int RECV_BUF_SZE = 4096;
+
+	private String GetLocalIpAddress() {
+		try {
+			for (Enumeration<NetworkInterface> en = NetworkInterface
+					.getNetworkInterfaces(); en.hasMoreElements();) {
+				NetworkInterface intf = en.nextElement();
+				for (Enumeration<InetAddress> enumIpAddr = intf
+						.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+					InetAddress inetAddress = enumIpAddr.nextElement();
+					if (!inetAddress.isLoopbackAddress()) {
+						return inetAddress.getHostAddress().toString();
+					}
+				}
+			}
+		} catch (SocketException ex) {
+			return "ERROR Obtaining IP";
+		}
+		return "No IP Available";
+	}
 
 	private int sendPacket(int localPort, String remoteIP, int remotePort,
 			String payload) throws IOException {
@@ -48,10 +71,17 @@ public class AndroidUDP extends Activity {
 				recvByteArray.length);
 		socket.receive(packet);
 		recvString = new String(recvByteArray, 0, packet.getLength());
-		Log.i("Udp tutorial", "message:" + recvString);
+		// Log.i("Udp tutorial", "message:" + recvString);
+
 		Message message = new Message();
 		message.what = 1;
+		Bundle bundle = new Bundle();
+		bundle.putString("recvStr", recvString);
+		bundle.putString("peerAddr", packet.getAddress().getHostAddress().toString());
+		bundle.putString("localAddr", GetLocalIpAddress());
+		message.setData(bundle);
 		mHandler.sendMessage(message);
+
 		// socket.disconnect();
 		// socket.close();
 	}
@@ -60,11 +90,10 @@ public class AndroidUDP extends Activity {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 1:
-				recvText.append(recvString);
+				recvText.append(msg.getData().getString("recvStr"));
 				recvText.append(" ");
-				// recvText.scrollTo(0, recvText.getHeight());
-				// if(recvText.getLineCount() == 6)
-				// recvText.setText("");
+				peerAddr.setText(msg.getData().getString("peerAddr"));
+				myAddr.setText(msg.getData().getString("localAddr"));
 				break;
 			default:
 				break;
@@ -95,6 +124,8 @@ public class AndroidUDP extends Activity {
 		btSend = (Button) findViewById(R.id.buttonSend);
 		btClear = (Button) findViewById(R.id.buttonClear);
 		recvText = (EditText) findViewById(R.id.RecvText);
+		peerAddr = (EditText) findViewById(R.id.EditText_peerAddr);
+		myAddr = (EditText) findViewById(R.id.EditText_myIP);
 
 		socketCreate();
 		recvText.setKeyListener(null);
