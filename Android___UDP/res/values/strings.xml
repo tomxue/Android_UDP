@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <string name="app_name">Android UDP</string>
+    <string name="app_name">UDP Broadcast</string>
     
     <string name="localPort">Local Port</string>
     <string name="ip_address">Destination IP</string>

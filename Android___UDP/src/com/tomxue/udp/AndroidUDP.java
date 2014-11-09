@@ -5,9 +5,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-
-import com.benito.udpterminal.R;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
