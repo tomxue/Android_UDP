@@ -109,7 +109,7 @@
             android:id="@+id/buttonClear"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="Clear" />
+            android:text="@string/clearText" />
 
         <TextView
             android:id="@+id/TextView01"

@@ -2,11 +2,7 @@
 <resources>
 
     <string name="app_name">UDP Broadcast</string>
-    <string name="localPort">localPort</string>
-    <string name="ip_address">destIP</string>
-    <string name="port">destPort</string>
     <string name="send">Send</string>
-    <string name="payload_send">Content</string>
     <string name="payload_recv">Content Received</string>
     <string name="sendContent">Hello Tom Xue!</string>
     <string name="destPort">5001</string>
@@ -14,10 +10,9 @@
     <string name="localPortNum">5001</string>
     <string name="myIPText">myAddr</string>
     <string name="myIPAdd">0.0.0.0</string>
-    <string name="broadCastIP">broadCastIP</string>
-    <string name="broadCastPort">bcPort</string>
     <string name="broadcast_IP_Port">BroadCast</string>
     <string name="peerAddr">peerAddr</string>
     <string name="peerIP">0.0.0.0</string>
+    <string name="clearText">Clear</string>
 
 </resources>
