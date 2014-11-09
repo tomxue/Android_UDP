@@ -8,10 +8,10 @@
     <string name="destPort">5001</string>
     <string name="destIP">255.255.255.255</string>
     <string name="localPortNum">5001</string>
-    <string name="myIPText">myAddr</string>
+    <string name="myIPText">My Addr</string>
     <string name="myIPAdd">0.0.0.0</string>
     <string name="broadcast_IP_Port">BroadCast</string>
-    <string name="peerAddr">peerAddr</string>
+    <string name="peerAddr">Peer Addr</string>
     <string name="peerIP">0.0.0.0</string>
     <string name="clearText">Clear</string>
 
