@@ -115,8 +115,15 @@
             android:id="@+id/TextView01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="0.55"
             android:text="@string/payload_recv"
             android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <Button
+            android:id="@+id/buttonClose"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="@string/TextClose" />
     </LinearLayout>
 
     <ScrollView

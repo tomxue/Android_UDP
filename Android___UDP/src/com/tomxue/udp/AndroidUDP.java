@@ -37,7 +37,7 @@ public class AndroidUDP extends Activity {
 	private EditText sentContent;
 	private EditText peerAddr;
 	private EditText myAddr;
-	private Button btSend, btClear;
+	private Button btSend, btClear, btClose;
 	private final int RECV_BUF_SZE = 4096;
 	
 	WifiApManager wifiApManager; 
@@ -69,7 +69,8 @@ public class AndroidUDP extends Activity {
 		DatagramPacket packet = new DatagramPacket(payload.getBytes(),
 				payload.length(), ipTarget, remotePort);
 
-		socket.send(packet);
+		if(socket != null)
+			socket.send(packet);
 		// socket.disconnect();
 		// socket.close();
 
@@ -80,7 +81,11 @@ public class AndroidUDP extends Activity {
 		byte[] recvByteArray = new byte[RECV_BUF_SZE];
 		DatagramPacket packet = new DatagramPacket(recvByteArray,
 				recvByteArray.length);
-		socket.receive(packet);
+		if(socket != null)
+			socket.receive(packet);
+		else {
+			return;
+		}
 		recvString = new String(recvByteArray, 0, packet.getLength());
 		// Log.i("Udp tutorial", "message:" + recvString);
 
@@ -133,6 +138,7 @@ public class AndroidUDP extends Activity {
 		destinationPort = (EditText) findViewById(R.id.editTextPorta);
 		sentContent = (EditText) findViewById(R.id.editTextPayload);
 		btSend = (Button) findViewById(R.id.buttonSend);
+		btClose = (Button) findViewById(R.id.buttonClose);
 		btClear = (Button) findViewById(R.id.buttonClear);
 		recvText = (EditText) findViewById(R.id.RecvText);
 		peerAddr = (EditText) findViewById(R.id.EditText_peerAddr);
@@ -142,7 +148,8 @@ public class AndroidUDP extends Activity {
 		recvText.setKeyListener(null);
 		
 		wifiApManager = new WifiApManager(this);
-		scan();
+		scan();		
+		wifiApManager.setWifiApEnabled(null, true);
 
 		btSend.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -161,6 +168,13 @@ public class AndroidUDP extends Activity {
 		btClear.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				recvText.setText("");
+			}
+		});
+		
+		btClose.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				wifiApManager.setWifiApEnabled(null, false);
+				AndroidUDP.this.finish();
 			}
 		});
 		
@@ -213,7 +227,7 @@ public class AndroidUDP extends Activity {
 	protected void onStart() {
 		super.onStart();
 		RecvThread recvThread = new RecvThread();
-		new Thread(recvThread).start();
+		new Thread(recvThread).start();		
 	}
 
 	public class RecvThread implements Runnable {

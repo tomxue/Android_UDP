@@ -14,5 +14,6 @@
     <string name="peerAddr">Peer Addr</string>
     <string name="peerIP">0.0.0.0</string>
     <string name="clearText">Clear</string>
+    <string name="TextClose">Close</string>
 
 </resources>
