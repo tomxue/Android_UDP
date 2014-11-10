@@ -14,6 +14,8 @@ import com.whitebyte.wifihotspotutils.FinishScanListener;
 import com.whitebyte.wifihotspotutils.WifiApManager;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -174,6 +176,15 @@ public class AndroidUDP extends Activity {
 		btClose.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				wifiApManager.setWifiApEnabled(null, false);
+				
+				// open wifi settings GUI for users, user has choice for the next action: to enable wifi or not
+				final Intent intent = new Intent(Intent.ACTION_MAIN, null);
+		        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+		        final ComponentName cn = new ComponentName("com.android.settings", "com.android.settings.wifi.WifiSettings");
+		        intent.setComponent(cn);
+		        intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+		        startActivity(intent);
+		        
 				AndroidUDP.this.finish();
 			}
 		});
