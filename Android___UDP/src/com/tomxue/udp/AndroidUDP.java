@@ -6,12 +6,20 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+
+import com.whitebyte.wifihotspotutils.ClientScanResult;
+import com.whitebyte.wifihotspotutils.FinishScanListener;
+import com.whitebyte.wifihotspotutils.WifiApManager;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -31,6 +39,8 @@ public class AndroidUDP extends Activity {
 	private EditText myAddr;
 	private Button btSend, btClear;
 	private final int RECV_BUF_SZE = 4096;
+	
+	WifiApManager wifiApManager; 
 
 	private String GetLocalIpAddress() {
 		try {
@@ -130,6 +140,9 @@ public class AndroidUDP extends Activity {
 
 		socketCreate();
 		recvText.setKeyListener(null);
+		
+		wifiApManager = new WifiApManager(this);
+		scan();
 
 		btSend.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -152,6 +165,48 @@ public class AndroidUDP extends Activity {
 		});
 		
 		Toast.makeText(this, "Author: tomxue@outlook.com", Toast.LENGTH_LONG).show();
+	}
+	
+	private void scan() {
+		wifiApManager.getClientList(false, new FinishScanListener() {
+
+			@Override
+			public void onFinishScan(final ArrayList<ClientScanResult> clients) {
+
+				recvText.setText("WifiApState: " + wifiApManager.getWifiApState() + "\n\n");
+				recvText.append("Clients: \n");
+				for (ClientScanResult clientScanResult : clients) {
+					recvText.append("####################\n");
+					recvText.append("IpAddr: " + clientScanResult.getIpAddr() + "\n");
+					recvText.append("Device: " + clientScanResult.getDevice() + "\n");
+					recvText.append("HWAddr: " + clientScanResult.getHWAddr() + "\n");
+					recvText.append("isReachable: " + clientScanResult.isReachable() + "\n");
+				}
+			}
+		});
+	}
+	
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, 0, 0, "Get Clients");
+		menu.add(0, 1, 0, "Open AP");
+		menu.add(0, 2, 0, "Close AP");
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch (item.getItemId()) {
+		case 0:
+			scan();
+			break;
+		case 1:
+			wifiApManager.setWifiApEnabled(null, true);
+			break;
+		case 2:
+			wifiApManager.setWifiApEnabled(null, false);
+			break;
+		}
+
+		return super.onMenuItemSelected(featureId, item);
 	}
 
 	@Override
