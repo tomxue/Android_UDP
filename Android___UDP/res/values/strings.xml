@@ -3,7 +3,6 @@
 
     <string name="app_name">UDP Broadcast</string>
     <string name="send">Send</string>
-    <string name="payload_recv">Content Received</string>
     <string name="sendContent">Hello World!</string>
     <string name="destPort">5001</string>
     <string name="destIP">255.255.255.255</string>
