@@ -261,15 +261,21 @@ public class AndroidUDP extends Activity {
 		};
 		
 		TimerTask task2 = new TimerTask(){
-		      public void run() {  
-		       scan();
+		      public void run() {  		       
 		       wifiApManager.setWifiApEnabled(null, true);
+		   }  
+		};
+		
+		TimerTask task3 = new TimerTask(){
+		      public void run() {  		       
+		       scan();
 		   }  
 		};
 		
 		Timer timer = new Timer(true);
 		timer.schedule(task1,1000); 	// 延时1000ms后执行
-		timer.schedule(task2,2000); // 延时2000ms后执行
+		timer.schedule(task2,2000); 	// 延时2000ms后执行
+		timer.schedule(task3,4000); 	// 延时3000ms后执行
 		//timer.cancel(); // 退出计时器
 	}
 
