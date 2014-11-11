@@ -191,7 +191,7 @@ public class AndroidUDP extends Activity {
 				// intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
 				// startActivity(intent);
 
-				setWifi(true);
+				setWifi(true);				
 
 				AndroidUDP.this.finish();
 			}
@@ -254,14 +254,22 @@ public class AndroidUDP extends Activity {
 		RecvThread recvThread = new RecvThread();
 		new Thread(recvThread).start();
 		
-		TimerTask task = new TimerTask(){
+		TimerTask task1 = new TimerTask(){
 		      public void run() {  
 		       setWifi(false);
 		   }  
 		};
 		
+		TimerTask task2 = new TimerTask(){
+		      public void run() {  
+		       scan();
+		       wifiApManager.setWifiApEnabled(null, true);
+		   }  
+		};
+		
 		Timer timer = new Timer(true);
-		timer.schedule(task,1000); // 延时1000ms后执行
+		timer.schedule(task1,1000); 	// 延时1000ms后执行
+		timer.schedule(task2,2000); // 延时2000ms后执行
 		//timer.cancel(); // 退出计时器
 	}
 
