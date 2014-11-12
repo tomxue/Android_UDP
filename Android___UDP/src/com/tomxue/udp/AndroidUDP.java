@@ -14,13 +14,9 @@ import com.whitebyte.wifihotspotutils.ClientScanResult;
 import com.whitebyte.wifihotspotutils.FinishScanListener;
 import com.whitebyte.wifihotspotutils.WifiApManager;
 import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Intent;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,29 +37,10 @@ public class AndroidUDP extends Activity {
 	private EditText peerAddr;
 	private EditText myAddr;
 	private Button btSend, btClear, btClose;
-	private final int RECV_BUF_SZE = 4096;
-	WifiManager mWifiManager;
+	private final int RECV_BUF_SZE = 4096;	
 
 	WifiApManager wifiApManager;
-
-	private String GetLocalIpAddress() {
-		try {
-			for (Enumeration<NetworkInterface> en = NetworkInterface
-					.getNetworkInterfaces(); en.hasMoreElements();) {
-				NetworkInterface intf = en.nextElement();
-				for (Enumeration<InetAddress> enumIpAddr = intf
-						.getInetAddresses(); enumIpAddr.hasMoreElements();) {
-					InetAddress inetAddress = enumIpAddr.nextElement();
-					if (!inetAddress.isLoopbackAddress()) {
-						return inetAddress.getHostAddress().toString();
-					}
-				}
-			}
-		} catch (SocketException ex) {
-			return "ERROR Obtaining IP";
-		}
-		return "No IP Available";
-	}
+	wifiEnabler wifiEn;	
 
 	private int sendPacket(int localPort, String remoteIP, int remotePort,
 			String payload) throws IOException {
@@ -73,8 +50,14 @@ public class AndroidUDP extends Activity {
 		DatagramPacket packet = new DatagramPacket(payload.getBytes(),
 				payload.length(), ipTarget, remotePort);
 
-		if (socket != null && packet != null)
-			socket.send(packet);
+		if (socket != null)
+		{
+			try {
+				socket.send(packet);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}			
+		}
 		// socket.disconnect();
 		// socket.close();
 
@@ -105,6 +88,25 @@ public class AndroidUDP extends Activity {
 
 		// socket.disconnect();
 		// socket.close();
+	}
+	
+	private String GetLocalIpAddress() {
+		try {
+			for (Enumeration<NetworkInterface> en = NetworkInterface
+					.getNetworkInterfaces(); en.hasMoreElements();) {
+				NetworkInterface intf = en.nextElement();
+				for (Enumeration<InetAddress> enumIpAddr = intf
+						.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+					InetAddress inetAddress = enumIpAddr.nextElement();
+					if (!inetAddress.isLoopbackAddress()) {
+						return inetAddress.getHostAddress().toString();
+					}
+				}
+			}
+		} catch (SocketException ex) {
+			return "ERROR Obtaining IP";
+		}
+		return "No IP Available";
 	}
 
 	public Handler mHandler = new Handler() {
@@ -155,6 +157,8 @@ public class AndroidUDP extends Activity {
 		wifiApManager = new WifiApManager(this);
 		scan();
 		wifiApManager.setWifiApEnabled(null, true);
+		
+		wifiEn = new wifiEnabler();
 
 		btSend.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -191,7 +195,7 @@ public class AndroidUDP extends Activity {
 				// intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
 				// startActivity(intent);
 
-				setWifi(true);				
+				wifiEn.enableWifi(AndroidUDP.this, true);				
 
 				AndroidUDP.this.finish();
 			}
@@ -256,7 +260,7 @@ public class AndroidUDP extends Activity {
 		
 		TimerTask task1 = new TimerTask(){
 		      public void run() {  
-		       setWifi(false);
+		    	  wifiEn.enableWifi(AndroidUDP.this, false);
 		   }  
 		};
 		
@@ -273,10 +277,9 @@ public class AndroidUDP extends Activity {
 		};
 		
 		Timer timer = new Timer(true);
-		timer.schedule(task1,1000); 	// 延时1000ms后执行
-		timer.schedule(task2,2000); 	// 延时2000ms后执行
-		timer.schedule(task3,4000); 	// 延时3000ms后执行
-		//timer.cancel(); // 退出计时器
+		timer.schedule(task1,1000);
+		timer.schedule(task2,2000);
+		timer.schedule(task3,4000);
 	}
 
 	public class RecvThread implements Runnable {
@@ -296,38 +299,6 @@ public class AndroidUDP extends Activity {
 				// } catch (InterruptedException e) {
 				// e.printStackTrace();
 				// }
-			}
-		}
-	}
-
-	/**
-	 * 是否开启 wifi true：开启; false：关闭
-	 * 
-	 * 一定要加入权限： <uses-permission
-	 * android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
-	 * <uses-permission
-	 * android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
-	 * 
-	 * 
-	 * @param isEnable
-	 */
-	public void setWifi(boolean isEnable) {
-
-		//
-		if (mWifiManager == null) {
-			mWifiManager = (WifiManager) this.getSystemService(AndroidUDP.WIFI_SERVICE);
-		}
-
-		System.out.println("wifi====" + mWifiManager.isWifiEnabled());
-		if (isEnable) {
-			// 开启wifi
-			if (!mWifiManager.isWifiEnabled()) {
-				mWifiManager.setWifiEnabled(true);
-			}
-		} else {
-			// 关闭 wifi
-			if (mWifiManager.isWifiEnabled()) {
-				mWifiManager.setWifiEnabled(false);
 			}
 		}
 	}
