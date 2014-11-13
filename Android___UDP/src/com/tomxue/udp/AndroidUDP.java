@@ -13,7 +13,9 @@ import java.util.TimerTask;
 import com.whitebyte.wifihotspotutils.ClientScanResult;
 import com.whitebyte.wifihotspotutils.FinishScanListener;
 import com.whitebyte.wifihotspotutils.WifiApManager;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,108 +28,25 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class AndroidUDP extends Activity {
-
-	private String recvString;
-	private EditText recvText;
-	private DatagramSocket socket;
+	
+	public EditText recvText;	
 	private EditText localPort;
 	private EditText destinationIP;
 	private EditText destinationPort;
 	private EditText sentContent;
-	private EditText peerAddr;
-	private EditText myAddr;
-	private Button btSend, btClear, btClose;
-	private final int RECV_BUF_SZE = 4096;
+	private Button btSend, btClear, btClose;	
+	public EditText peerAddr;
+	public EditText myAddr;
 
 	WifiApManager wifiApManager;
 	wifiEnabler wifiEn;
-
-	private int sendPacket(int localPort, String remoteIP, int remotePort,
-			String payload) throws IOException {
-		InetAddress ipTarget = InetAddress.getByName(remoteIP);
-
-		// remote port to generate the packet for sending
-		DatagramPacket packet = new DatagramPacket(payload.getBytes(),
-				payload.length(), ipTarget, remotePort);
-
-		if (socket != null) {
-			try {
-				socket.send(packet);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		// socket.disconnect();
-		// socket.close();
-
-		return 0;
-	}
-
-	private void recvPacket() throws IOException {
-		byte[] recvByteArray = new byte[RECV_BUF_SZE];
-		DatagramPacket packet = new DatagramPacket(recvByteArray,
-				recvByteArray.length);
-		if (socket != null)
-			socket.receive(packet);
-		else {
-			return;
-		}
-		recvString = new String(recvByteArray, 0, packet.getLength());
-		// Log.i("Udp tutorial", "message:" + recvString);
-
-		Message message = new Message();
-		message.what = 1;
-		Bundle bundle = new Bundle();
-		bundle.putString("recvStr", recvString);
-		bundle.putString("peerAddr", packet.getAddress().getHostAddress()
-				.toString());
-		bundle.putString("localAddr", GetLocalIpAddress());
-		message.setData(bundle);
-		mHandler.sendMessage(message);
-
-		// socket.disconnect();
-		// socket.close();
-	}
-
-	private String GetLocalIpAddress() {
-		try {
-			for (Enumeration<NetworkInterface> en = NetworkInterface
-					.getNetworkInterfaces(); en.hasMoreElements();) {
-				NetworkInterface intf = en.nextElement();
-				for (Enumeration<InetAddress> enumIpAddr = intf
-						.getInetAddresses(); enumIpAddr.hasMoreElements();) {
-					InetAddress inetAddress = enumIpAddr.nextElement();
-					if (!inetAddress.isLoopbackAddress()) {
-						return inetAddress.getHostAddress().toString();
-					}
-				}
-			}
-		} catch (SocketException ex) {
-			return "ERROR Obtaining IP";
-		}
-		return "No IP Available";
-	}
-
-	public Handler mHandler = new Handler() {
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case 1:
-				recvText.append(msg.getData().getString("recvStr"));
-				recvText.append(" ");
-				peerAddr.setText(msg.getData().getString("peerAddr"));
-				myAddr.setText(msg.getData().getString("localAddr"));
-				break;
-			default:
-				break;
-			}
-			super.handleMessage(msg);
-		}
-	};
+	UdpHelper udphelper;	
 
 	private void socketCreate() {
 		try { // local port to generate the socket
-			socket = new DatagramSocket(Integer.parseInt(localPort.getText()
+			udphelper.socket = new DatagramSocket(Integer.parseInt(localPort.getText()
 					.toString()));
+			udphelper.socket.setBroadcast(true);
 		} catch (SocketException e1) {
 			e1.printStackTrace();
 		}
@@ -154,8 +73,8 @@ public class AndroidUDP extends Activity {
 		recvText.setKeyListener(null);
 
 		wifiApManager = new WifiApManager(this);
-		scan();
-		wifiApManager.setWifiApEnabled(null, true);
+		scanNetwork();
+		wifiApManager.setWifiAp(null, true);
 
 		wifiEn = new wifiEnabler();
 
@@ -165,7 +84,7 @@ public class AndroidUDP extends Activity {
 						.toString());
 				int lport = Integer.parseInt(localPort.getText().toString());
 				try {
-					sendPacket(lport, destinationIP.getText().toString(),
+					udphelper.sendPacket(lport, destinationIP.getText().toString(),
 							rport, sentContent.getText().toString());
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -181,7 +100,7 @@ public class AndroidUDP extends Activity {
 
 		btClose.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				wifiApManager.setWifiApEnabled(null, false);
+				wifiApManager.setWifiAp(null, false);
 
 				// open wifi settings GUI for users, user has choice for the
 				// next action: to enable wifi or not
@@ -194,7 +113,7 @@ public class AndroidUDP extends Activity {
 				// intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
 				// startActivity(intent);
 
-				wifiEn.enableWifi(AndroidUDP.this, true);
+				wifiEn.setWifi(AndroidUDP.this, true);
 
 				AndroidUDP.this.finish();
 			}
@@ -204,7 +123,7 @@ public class AndroidUDP extends Activity {
 				.show();
 	}
 
-	private void scan() {
+	private void scanNetwork() {
 		wifiApManager.getClientList(false, new FinishScanListener() {
 
 			@Override
@@ -238,13 +157,13 @@ public class AndroidUDP extends Activity {
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
 		case 0:
-			scan();
+			scanNetwork();
 			break;
 		case 1:
-			wifiApManager.setWifiApEnabled(null, true);
+			wifiApManager.setWifiAp(null, true);
 			break;
 		case 2:
-			wifiApManager.setWifiApEnabled(null, false);
+			wifiApManager.setWifiAp(null, false);
 			break;
 		}
 
@@ -254,24 +173,30 @@ public class AndroidUDP extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		RecvThread recvThread = new RecvThread();
-		new Thread(recvThread).start();
+		WifiManager wfmanager = (WifiManager) this
+				.getSystemService(AndroidUDP.WIFI_SERVICE);
+		udphelper = new UdpHelper(this, wfmanager);
+		new Thread(udphelper).start();
 
+		initWork();
+	}
+
+	private void initWork() {
 		TimerTask task1 = new TimerTask() {
 			public void run() {
-				wifiEn.enableWifi(AndroidUDP.this, false);
+				wifiEn.setWifi(AndroidUDP.this, false);
 			}
 		};
 
 		TimerTask task2 = new TimerTask() {
 			public void run() {
-				wifiApManager.setWifiApEnabled(null, true);
+				wifiApManager.setWifiAp(null, true);
 			}
 		};
 
 		TimerTask task3 = new TimerTask() {
 			public void run() {
-				scan();
+				scanNetwork();
 			}
 		};
 
@@ -279,26 +204,5 @@ public class AndroidUDP extends Activity {
 		timer.schedule(task1, 1000);
 		timer.schedule(task2, 2000);
 		timer.schedule(task3, 4000);
-	}
-
-	public class RecvThread implements Runnable {
-		public RecvThread() {
-		}
-
-		@Override
-		public void run() {
-			while (!Thread.currentThread().isInterrupted()) {
-				try {
-					recvPacket();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+	}	
 }
