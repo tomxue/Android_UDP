@@ -5,7 +5,7 @@ import android.net.wifi.WifiManager;
 
 
 
-public class wifiEnabler {
+public class wifiManager {
 	
 	private WifiManager mWifiManager;
 	
@@ -19,7 +19,7 @@ public class wifiEnabler {
 	 * 
 	 * @param isEnable
 	 */
-	public void enableWifi(Context context, boolean isEnable) {
+	public void setWifi(Context context, boolean isEnable) {
 
 		//
 		if (mWifiManager == null) {

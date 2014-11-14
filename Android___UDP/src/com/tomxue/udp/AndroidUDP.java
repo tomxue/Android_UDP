@@ -40,7 +40,8 @@ public class AndroidUDP extends Activity {
 	private final int RECV_BUF_SZE = 4096;
 
 	WifiApManager wifiApManager;
-	wifiEnabler wifiEn;
+	wifiManager wifimanager;
+	private ScreenManager sManager;
 
 	private int sendPacket(int localPort, String remoteIP, int remotePort,
 			String payload) throws IOException {
@@ -154,10 +155,13 @@ public class AndroidUDP extends Activity {
 		recvText.setKeyListener(null);
 
 		wifiApManager = new WifiApManager(this);
-		scan();
-		wifiApManager.setWifiApEnabled(null, true);
-
-		wifiEn = new wifiEnabler();
+//		scan();
+//		wifiApManager.setWifiApEnabled(null, true);
+//
+		wifimanager = new wifiManager();
+		
+		sManager = new ScreenManager(this);
+		sManager.keepScreenOn(true);
 
 		btSend.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -194,8 +198,9 @@ public class AndroidUDP extends Activity {
 				// intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
 				// startActivity(intent);
 
-				wifiEn.enableWifi(AndroidUDP.this, true);
+//				wifiEn.enableWifi(AndroidUDP.this, true);
 
+				sManager.keepScreenOn(false);
 				AndroidUDP.this.finish();
 			}
 		});
@@ -241,9 +246,11 @@ public class AndroidUDP extends Activity {
 			scan();
 			break;
 		case 1:
+			wifimanager.setWifi(this, false);
 			wifiApManager.setWifiApEnabled(null, true);
 			break;
 		case 2:
+			wifimanager.setWifi(this, true);
 			wifiApManager.setWifiApEnabled(null, false);
 			break;
 		}
@@ -257,28 +264,28 @@ public class AndroidUDP extends Activity {
 		RecvThread recvThread = new RecvThread();
 		new Thread(recvThread).start();
 
-		TimerTask task1 = new TimerTask() {
-			public void run() {
-				wifiEn.enableWifi(AndroidUDP.this, false);
-			}
-		};
-
-		TimerTask task2 = new TimerTask() {
-			public void run() {
-				wifiApManager.setWifiApEnabled(null, true);
-			}
-		};
-
-		TimerTask task3 = new TimerTask() {
-			public void run() {
-				scan();
-			}
-		};
-
-		Timer timer = new Timer(true);
-		timer.schedule(task1, 1000);
-		timer.schedule(task2, 2000);
-		timer.schedule(task3, 4000);
+//		TimerTask task1 = new TimerTask() {
+//			public void run() {
+//				wifimanager.setWifi(AndroidUDP.this, false);
+//			}
+//		};
+//
+//		TimerTask task2 = new TimerTask() {
+//			public void run() {
+//				wifiApManager.setWifiApEnabled(null, true);
+//			}
+//		};
+//
+//		TimerTask task3 = new TimerTask() {
+//			public void run() {
+//				scan();
+//			}
+//		};
+//
+//		Timer timer = new Timer(true);
+//		timer.schedule(task1, 1000);
+//		timer.schedule(task2, 2000);
+//		timer.schedule(task3, 4000);
 	}
 
 	public class RecvThread implements Runnable {
