@@ -185,7 +185,7 @@ public class AndroidUDP extends Activity {
 
 		btClose.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				wifiApManager.setWifiApEnabled(null, false);
+//				wifiApManager.setWifiApEnabled(null, false);
 
 				// open wifi settings GUI for users, user has choice for the
 				// next action: to enable wifi or not
