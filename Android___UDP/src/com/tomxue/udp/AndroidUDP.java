@@ -8,11 +8,10 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Timer;
-import java.util.TimerTask;
 import com.whitebyte.wifihotspotutils.ClientScanResult;
 import com.whitebyte.wifihotspotutils.FinishScanListener;
 import com.whitebyte.wifihotspotutils.WifiApManager;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -109,6 +108,7 @@ public class AndroidUDP extends Activity {
 		return "No IP Available";
 	}
 
+	@SuppressLint("HandlerLeak")
 	public Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
@@ -246,11 +246,9 @@ public class AndroidUDP extends Activity {
 			scan();
 			break;
 		case 1:
-			wifimanager.setWifi(this, false);
 			wifiApManager.setWifiApEnabled(null, true);
 			break;
 		case 2:
-			wifimanager.setWifi(this, true);
 			wifiApManager.setWifiApEnabled(null, false);
 			break;
 		}
@@ -300,11 +298,11 @@ public class AndroidUDP extends Activity {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+//				try {
+//					Thread.sleep(100);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
 			}
 		}
 	}

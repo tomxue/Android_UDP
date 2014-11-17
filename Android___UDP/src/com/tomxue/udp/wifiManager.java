@@ -3,8 +3,6 @@ package com.tomxue.udp;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 
-
-
 public class wifiManager {
 	
 	private WifiManager mWifiManager;
@@ -27,7 +25,7 @@ public class wifiManager {
 					.getSystemService(AndroidUDP.WIFI_SERVICE);
 		}
 
-		System.out.println("wifi====" + mWifiManager.isWifiEnabled());
+		System.out.println("wifi = " + mWifiManager.isWifiEnabled());
 		if (isEnable) {
 			// enable wifi
 			if (!mWifiManager.isWifiEnabled()) {
