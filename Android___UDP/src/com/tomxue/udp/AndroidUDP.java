@@ -117,10 +117,10 @@ public class AndroidUDP extends Activity {
 			case 1:
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
 		        String t=format.format(new Date());
-		        recvText.append("\n");
-				recvText.append("-------"+t+"-------");
+//		        recvText.append("\n");
+				recvText.append(t+": ");
 				recvText.append(msg.getData().getString("recvStr"));
-				recvText.append(" ");
+				recvText.append("\n\n");
 				peerAddr.setText(msg.getData().getString("peerAddr"));
 				myAddr.setText(msg.getData().getString("localAddr"));
 				break;
