@@ -6,7 +6,9 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import com.whitebyte.wifihotspotutils.ClientScanResult;
 import com.whitebyte.wifihotspotutils.FinishScanListener;
@@ -113,6 +115,10 @@ public class AndroidUDP extends Activity {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 1:
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+		        String t=format.format(new Date());
+		        recvText.append("\n");
+				recvText.append("-------"+t+"-------");
 				recvText.append(msg.getData().getString("recvStr"));
 				recvText.append(" ");
 				peerAddr.setText(msg.getData().getString("peerAddr"));
