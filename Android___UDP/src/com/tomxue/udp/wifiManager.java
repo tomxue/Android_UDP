@@ -3,8 +3,10 @@ package com.tomxue.udp;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 
-public class wifiEnabler {
+public class wifiManager {
+	
 	private WifiManager mWifiManager;
+	
 	/**
 	 * 
 	 * <uses-permission

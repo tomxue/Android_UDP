@@ -47,7 +47,7 @@ public class WifiApManager {
 	 * @param wifiConfig SSID, security and channel details as part of WifiConfiguration
 	 * @return {@code true} if the operation succeeds, {@code false} otherwise
 	 */
-	public boolean setWifiAp(WifiConfiguration wifiConfig, boolean enabled) {
+	public boolean setWifiApEnabled(WifiConfiguration wifiConfig, boolean enabled) {
 		try {
 			if (enabled) { // disable WiFi in any case
 				mWifiManager.setWifiEnabled(false);
